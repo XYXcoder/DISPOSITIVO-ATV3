@@ -1,0 +1,64 @@
+
+
+import android.content.Context
+
+import android.media.AudioDeviceInfo
+
+import android.media.AudioManager
+
+import android.content.pm.PackageManager
+
+ 
+
+class AudioHelper(context: Context) {
+
+ 
+
+    private val audioManager: AudioManager =
+context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+ 
+
+    fun audioOutputAvailable(type: Int): Boolean {
+
+        if (!
+context.packageManager.hasSystemFeature(PackageManager.FEATURE_AUDIO_OUTP
+UT)) {
+
+            return false
+
+        }
+
+ 
+
+        return audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS).any
+{ it.type == type }
+
+    }
+
+}
+
+ 
+
+// Exemplo de uso
+
+fun main() {
+
+    val audioHelper = AudioHelper(context) // Substitua 'context' pelo contexto atual do
+seu aplicativo
+
+ 
+
+    val isSpeakerAvailable =
+audioHelper.audioOutputAvailable(AudioDeviceInfo.TYPE_BUILTIN_SPEAKER)
+
+    // True if the device has a speaker
+
+ 
+
+    val isBluetoothHeadsetConnected =
+audioHelper.audioOutputAvailable(AudioDeviceInfo.TYPE_BLUETOOTH_A2DP)
+
+    // True if a Bluetooth headset is connected
+
+}
